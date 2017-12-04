@@ -7,4 +7,6 @@
 /* Uses BIOS int 10h to set video mode (no VESA Modes) */
 void vgaSetMode(char mode);
 
+void vg_pixel(unsigned short x, unsigned short y, unsigned long color);
+
 #endif /* __VGA_H */
