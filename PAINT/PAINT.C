@@ -15,9 +15,6 @@ uint8_t mouseGetButtons() {
 	regs.x.ax = 0x03;
 	int86(0x33, &regs, &regs);
 	
-	system("CLS");
-	printf("x: %d y: %d\n", regs.x.cx, regs.x.dx);
-	
 	return regs.h.bl;
 }
 
@@ -28,7 +25,7 @@ void mousePaint() {
 	regs.x.ax = 0x03;
 	int86(0x33, &regs, &regs);
 	
-	vg_pixel(regs.x.cx, regs.x.dx, 0x02);
+	vg_pixel(regs.x.cx >> 1, regs.x.dx, 0x02);
 }
 
 void mouseShowCursor() {
@@ -51,7 +48,7 @@ int main(int argc, char** argv) {
 	
 	uint8_t buttonStatus;
 	
-	/*vgaSetMode(VGA256);*/
+	vgaSetMode(VGA256);
 	
 	mouseShowCursor();
 	
@@ -64,7 +61,7 @@ int main(int argc, char** argv) {
 	
 	mouseHideCursor();
 	
-	/*vgaSetMode(TEXT);*/
+	vgaSetMode(TEXT);
 	
 	return 0;
 }
