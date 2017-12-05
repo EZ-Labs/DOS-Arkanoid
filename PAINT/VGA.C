@@ -1,6 +1,7 @@
 #include <STDIO.H>
 #include <DOS.H>
 #include "VGA.H"
+#include "PAINT.H"
 
 static char far* video_mem = (char far*) 0xA0000000L;
 static unsigned short h_res = 320;
@@ -22,7 +23,7 @@ void vg_pixel(unsigned short x, unsigned short y, unsigned long color) {
 	char far* vptr = video_mem;
 	
 	if(x > h_res - 1 || y > v_res - 1) return;
-
+	
 	vptr += x + y * h_res;
 	*vptr = color & 0xFF;
 }
