@@ -16,18 +16,6 @@ typedef struct {
 
 mouse_coords_t mouse_coords = {0, 0};
 
-uint8_t mouseHandler() {
-	
-	union REGS regs;
-	
-	regs.x.ax = 0x03;
-	int86(0x33, &regs, &regs);
-	
-	/* if(regs.h.bl & RB_PRESS) vg_pixel(regs.x.cx >> 1, regs.x.dx, 0x03); */
-	
-	return regs.h.bl;
-}
-
 void mouseShowCursor() {
 	
 	union REGS regs;
@@ -44,6 +32,23 @@ void mouseHideCursor() {
 	int86(0x33, &regs, &regs);
 }
 
+uint8_t mouseHandler() {
+	
+	union REGS regs;
+	
+	regs.x.ax = 0x03;
+	int86(0x33, &regs, &regs);
+	
+	if(regs.h.bl & RB_PRESS) {
+		
+		mouseHideCursor();
+		vg_pixel(regs.x.cx >> 1, regs.x.dx, 0x03);
+		mouseShowCursor();
+	}
+	
+	return regs.h.bl;
+}
+
 void updateMousePosition(void) {
 	
 	union REGS read;
@@ -57,7 +62,7 @@ void updateMousePosition(void) {
 	
 	if(mouse_coords.x < 0) mouse_coords.x = 0;
 	if(mouse_coords.y < 0) mouse_coords.y = 0;
-	if(mouse_coords.x > 320) mouse_coords.x = 320;
+	if(mouse_coords.x > 640) mouse_coords.x = 640;
 	if(mouse_coords.y > 200) mouse_coords.y = 200;
 	
 	set.x.ax = 0x04;
