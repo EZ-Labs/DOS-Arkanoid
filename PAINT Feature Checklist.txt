@@ -1,0 +1,6 @@
+Palette swapping		[]
+Color cycling			[]
+Zoom					[]
+Line Tool				[]
+
+??????
